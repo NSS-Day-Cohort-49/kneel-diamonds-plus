@@ -1,10 +1,13 @@
-import { getStyles } from "./database.js"
+import { getStyles, setStyle } from "./database.js"
 
 const styles = getStyles()
 
 document.addEventListener(
     "change",
     (event) => {
+      if (event.target.name === "style") {
+        setStyle(parseInt(event.target.value))
+      }
     }
 )
 
@@ -13,7 +16,7 @@ export const JewelryStyles = () => {
 
     // Use .map() for converting objects to <li> elements
     const listItemsArray = styles.map( (style) => `<li>
-      <input type="radio" name="metal" value="${style.id}" /> ${style.style}
+      <input type="radio" name="style" value="${style.id}" /> ${style.style}
     </li>`)
 
 
