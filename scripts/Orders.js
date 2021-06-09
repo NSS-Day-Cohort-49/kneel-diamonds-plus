@@ -1,8 +1,12 @@
-import { getOrders } from "./database.js"
+import { getOrders, getMetals, getSizes, getStyles } from "./database.js"
+
 
 const buildOrderListItem = (order) => {
+    const orderMetal = getMetals().find( (metal) => metal.id === order.metalId )
+    const orderSize = getSizes().find( (size) => size.id === order.sizeId )
+    const orderStyle = getStyles().find( (style) => style.id === order.styleId )
     return `<li>
-        Order #${order.id} was placed on ${order.timestamp}
+        Order #${order.id}, A ${orderSize.carets} caret stone in a ${orderStyle.style} ${orderMetal.metal} setting, was placed on ${new Date(order.timestamp).toLocaleDateString()}
     </li>`
 }
 
@@ -22,4 +26,3 @@ export const Orders = () => {
 
     return html
 }
-
