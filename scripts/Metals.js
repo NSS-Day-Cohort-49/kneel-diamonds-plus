@@ -1,4 +1,5 @@
-import { getMetals, setMetal } from "./database.js"
+import { getMetals, setMetal, checkOrderState } from "./database.js"
+import { dispatchOrderBtnEvent  } from "./orderBtnEvent.js"
 
 const metals = getMetals()
 
@@ -8,6 +9,9 @@ document.addEventListener(
       if (event.target.name === "metal") {
         // window.alert(`User chose metal ${event.target.value}`)
         setMetal(parseInt(event.target.value))
+        if ( checkOrderState() ) {
+          dispatchOrderBtnEvent()
+        }
       }
     }
 )

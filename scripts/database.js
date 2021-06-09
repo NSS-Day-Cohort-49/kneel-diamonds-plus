@@ -67,33 +67,31 @@ export const setStyle = (id) => {
   database.orderBuilder.styleId = id
 }
 
-export const addCustomOrder = () => {
-
-  if (
+export const checkOrderState = () => {
+  return (
     "metalId" in database.orderBuilder &&
     "sizeId" in database.orderBuilder &&
     "styleId" in database.orderBuilder
-    ) {
+    )
+}
 
-      // Copy the current state of user choices
-      const newOrder = {...database.orderBuilder}
+export const addCustomOrder = () => {
+  // Copy the current state of user choices
+  const newOrder = {...database.orderBuilder}
 
-      // Add a new primary key to the object
-      const lastIndex = database.customOrders.length - 1
-      newOrder.id = lastIndex >= 0 ? database.customOrders[lastIndex].id + 1 : 1
+  // Add a new primary key to the object
+  const lastIndex = database.customOrders.length - 1
+  newOrder.id = lastIndex >= 0 ? database.customOrders[lastIndex].id + 1 : 1
 
-      // Add a timestamp to the order
-      newOrder.timestamp = Date.now()
+  // Add a timestamp to the order
+  newOrder.timestamp = Date.now()
 
-      // Add the new order object to custom orders state
-      database.customOrders.push(newOrder)
+  // Add the new order object to custom orders state
+  database.customOrders.push(newOrder)
 
-      // Reset the temporary state for user choices
-      database.orderBuilder = {}
+  // Reset the temporary state for user choices
+  database.orderBuilder = {}
 
-      // Broadcast a notification that permanent state has changed
-      document.dispatchEvent(new CustomEvent("stateChanged"))
-    } else {
-      window.alert("please select from all options before placing order.")
-    }
+  // Broadcast a notification that permanent state has changed
+  document.dispatchEvent(new CustomEvent("stateChanged"))
 }
